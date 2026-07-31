@@ -20,10 +20,20 @@ public class CheckoutPage {
         this.driver = driver;
     }
 
-    public void clickCheckout(){
+    public void clickCheckout() {
+
+        WebDriverWait wait =
+                new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        wait.until(ExpectedConditions.elementToBeClickable(checkoutButton));
+
         driver.findElement(checkoutButton).click();
-     
+
+        System.out.println("Checkout button clicked");
+
+        System.out.println("Current URL : " + driver.getCurrentUrl());
     }
+    
     public void enterCustomerDetails(String fName, String lName, String zip) throws InterruptedException {
 
         WebDriverWait wait =

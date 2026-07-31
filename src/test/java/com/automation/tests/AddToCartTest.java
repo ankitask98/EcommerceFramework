@@ -32,6 +32,8 @@ public class AddToCartTest extends BaseTest {
         CheckoutPage checkout = new CheckoutPage(driver);
 
         checkout.clickCheckout();
+        System.out.println("URL after checkout click : "
+                + driver.getCurrentUrl());
 
         checkout.enterCustomerDetails (
                 "Ankita",
