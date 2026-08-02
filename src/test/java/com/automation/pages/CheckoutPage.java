@@ -2,6 +2,8 @@ package com.automation.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 import java.time.Duration;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,7 +12,9 @@ public class CheckoutPage {
 
     WebDriver driver;
 
-    By checkoutButton = By.id("checkout");
+	/*
+	 * By checkoutButton = By.id("checkout");
+	 */   
     By firstName = By.id("first-name");
     By lastName = By.id("last-name");
     By postalCode = By.id("postal-code");
@@ -20,52 +24,50 @@ public class CheckoutPage {
         this.driver = driver;
     }
 
-    public void clickCheckout() {
-
-        WebDriverWait wait =
-                new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        wait.until(ExpectedConditions.elementToBeClickable(checkoutButton));
-
-        driver.findElement(checkoutButton).click();
-
-        System.out.println("Checkout button clicked");
-
-        System.out.println("Current URL : " + driver.getCurrentUrl());
-    }
+	/*
+	 * public void clickCheckout() {
+	 * 
+	 * WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+	 * 
+	 * wait.until(ExpectedConditions.elementToBeClickable(checkoutButton));
+	 * 
+	 * driver.findElement(checkoutButton).click();
+	 * 
+	 * System.out.println("Checkout button clicked");
+	 * 
+	 * System.out.println("Current URL : " + driver.getCurrentUrl()); }
+	 */
     
-    public void enterCustomerDetails(String fName, String lName, String zip) throws InterruptedException {
+    public void enterCustomerDetails(String fName, String lName, String zip) {
 
-        WebDriverWait wait =
-                new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(firstName));
+        WebElement first = wait.until(ExpectedConditions.visibilityOfElementLocated(firstName));
+        WebElement last = wait.until(ExpectedConditions.visibilityOfElementLocated(lastName));
+        WebElement postal = wait.until(ExpectedConditions.visibilityOfElementLocated(postalCode));
 
-        driver.findElement(firstName).sendKeys(fName);
-        driver.findElement(lastName).sendKeys(lName);
-        driver.findElement(postalCode).sendKeys(zip);
+        first.clear();
+        first.sendKeys(fName);
 
-        System.out.println("First Name : " +
-                driver.findElement(firstName).getAttribute("value"));
+        last.click();
+        last.clear();
+        last.sendKeys(lName);
 
-        System.out.println("Last Name : " +
-                driver.findElement(lastName).getAttribute("value"));
+        postal.click();
+        postal.clear();
+        postal.sendKeys(zip);
 
-        System.out.println("Zip : " +
-                driver.findElement(postalCode).getAttribute("value"));
+        System.out.println("First Name : " + first.getAttribute("value"));
+        System.out.println("Last Name : " + last.getAttribute("value"));
+        System.out.println("Zip : " + postal.getAttribute("value"));
 
-        driver.findElement(continueButton).click();
+        WebElement continueBtn = wait.until(
+                ExpectedConditions.elementToBeClickable(continueButton));
 
-        Thread.sleep(3000);
+        continueBtn.click();
 
-        System.out.println("URL After Continue : "
-                + driver.getCurrentUrl());
+        wait.until(ExpectedConditions.urlContains("checkout-step-two.html"));
 
-        System.out.println("Error Count : "
-                + driver.findElements(By.cssSelector("[data-test='error']")).size());
-
-        if(driver.findElements(By.cssSelector("[data-test='error']")).size() > 0) {
-            System.out.println(driver.findElement(By.cssSelector("[data-test='error']")).getText());
-        }
+        System.out.println("Moved to Step Two");
     }
-       }
+}

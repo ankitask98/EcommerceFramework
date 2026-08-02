@@ -11,6 +11,8 @@ import com.automation.pages.LoginPage;
 import com.automation.pages.ProductsPage;
 import org.openqa.selenium.By;
 
+
+
 public class AddToCartTest extends BaseTest {
 
     @Test
@@ -29,20 +31,15 @@ public class AddToCartTest extends BaseTest {
                 cart.getProductName(),
                 "Sauce Labs Backpack");
 
+        cart.clickCheckout();
+
         CheckoutPage checkout = new CheckoutPage(driver);
 
-        checkout.clickCheckout();
-        System.out.println("URL after checkout click : "
-                + driver.getCurrentUrl());
-
-        checkout.enterCustomerDetails (
+        checkout.enterCustomerDetails(
                 "Ankita",
                 "Karoshi",
                 "560001");
-        
-        System.out.println("After Continue URL: " + driver.getCurrentUrl());
-
-        Thread.sleep(3000);
+  
         
         FinishPage finish = new FinishPage(driver);
         System.out.println(driver.getCurrentUrl());
