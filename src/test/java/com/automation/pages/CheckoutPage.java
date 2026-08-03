@@ -44,7 +44,8 @@ public class CheckoutPage {
 
         WebElement first = wait.until(ExpectedConditions.visibilityOfElementLocated(firstName));
         WebElement last = wait.until(ExpectedConditions.visibilityOfElementLocated(lastName));
-        WebElement postal = wait.until(ExpectedConditions.visibilityOfElementLocated(postalCode));
+//        WebElement postal = wait.until(ExpectedConditions.visibilityOfElementLocated(postalCode));
+        WebElement postal = wait.until(ExpectedConditions.elementToBeClickable(postalCode));
 
         first.clear();
         first.sendKeys(fName);
@@ -53,13 +54,16 @@ public class CheckoutPage {
         last.clear();
         last.sendKeys(lName);
 
+        wait.until(ExpectedConditions.elementToBeClickable(postal));
+
         postal.click();
         postal.clear();
         postal.sendKeys(zip);
 
-        System.out.println("First Name : " + first.getAttribute("value"));
-        System.out.println("Last Name : " + last.getAttribute("value"));
-        System.out.println("Zip : " + postal.getAttribute("value"));
+        System.out.println("Zip Field = " + postal.getDomProperty("value"));
+
+        System.out.println("Zip Parameter = " + zip);
+        System.out.println("Zip Field = " + postal.getAttribute("value"));
 
         WebElement continueBtn = wait.until(
                 ExpectedConditions.elementToBeClickable(continueButton));

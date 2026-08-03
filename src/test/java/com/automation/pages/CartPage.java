@@ -24,13 +24,28 @@ public class CartPage {
     }
     By checkoutButton = By.id("checkout");
 
+	/*
+	 * public void clickCheckout() {
+	 * 
+	 * WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	 * 
+	 * wait.until(ExpectedConditions.elementToBeClickable(checkoutButton)) .click();
+	 * 
+	 * wait.until(ExpectedConditions.urlContains("checkout-step-one.html"));
+	 * 
+	 * System.out.println("Navigated to Checkout Step One"); }
+	 */
     public void clickCheckout() {
 
-        WebDriverWait wait =
-                new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        wait.until(ExpectedConditions.elementToBeClickable(checkoutButton))
-                .click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(checkoutButton));
+
+        System.out.println("Before Click URL : " + driver.getCurrentUrl());
+
+        driver.findElement(checkoutButton).click();
+
+        System.out.println("After Click URL : " + driver.getCurrentUrl());
 
         wait.until(ExpectedConditions.urlContains("checkout-step-one.html"));
 
